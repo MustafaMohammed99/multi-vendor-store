@@ -1,18 +1,17 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Categories')
+@section('title', 'Store')
 
 @section('breadcrumb')
 @parent
-<li class="breadcrumb-item active">Categories</li>
+<li class="breadcrumb-item active">Store</li>
 @endsection
 
 @section('content')
 
-<form action="{{ route('dashboard.categories.store') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('dashboard.stores.store') }}" method="post" enctype="multipart/form-data">
     @csrf
-    
-    @include('dashboard.categories._form')
+    @include('dashboard.stores._form')
 </form>
 
 @endsection

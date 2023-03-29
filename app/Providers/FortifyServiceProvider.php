@@ -64,6 +64,15 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        Fortify::viewPrefix('auth.');
+                Fortify::viewPrefix('auth.');
+
+        // Fortify::loginView(function() {
+        //     if (Config::get('fortify.guard') !== null) {
+        //         // return view ('front.auth.login');
+        //         Fortify::viewPrefix('auth.');
+        //     }
+        //     dd('sssssssssss');
+        // });
+
     }
 }

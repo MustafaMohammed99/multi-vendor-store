@@ -58,6 +58,18 @@ class Product extends Model
         );
     }
 
+    public function images()
+    {
+        return $this->hasMany(ProductImages::class, 'product_id', 'id');
+    }
+
+    // public function products()
+    // {
+    //     return $this->hasMany(Product::class, 'category_id', 'id');
+    // }
+
+
+
     public function scopeActive(Builder $builder)
     {
         $builder->where('status', '=', 'active');
@@ -73,7 +85,7 @@ class Product extends Model
         if (Str::startsWith($this->image, ['http://', 'https://'])) {
             return $this->image;
         }
-        return asset('storage/' . $this->image);
+        return asset('uploads/' . $this->image);
     }
 
     public function getSalePercentAttribute()

@@ -11,7 +11,7 @@
 
             <!-- Password Reset Token -->
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
+                
             <!-- Email Address -->
             <div>
                 <x-input-label for="email" :value="__('Email')" />

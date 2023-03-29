@@ -29,8 +29,7 @@
     <x-form.label id="image">Image</x-form.label>
     <x-form.input type="file" name="image" accept="image/*" />
     @if ($category->image)
-        <div>{{$category->image}}</div>
-        <img src="{{ asset('storage/' . $category->image) }}" alt="" height="60">
+        <img src="{{ $category->image_url }}" alt="" height="50">
     @endif
 </div>
 <div class="form-group">

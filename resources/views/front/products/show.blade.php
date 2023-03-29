@@ -33,10 +33,15 @@
                                 </div>
                                 <div class="images">
                                     <img src="{{ $product->image_url }}" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
+
+                                    @foreach ($product->images as $product_image)
+                                        <img src="{{ $product_image->image_url }}" class="img" alt="#">
+                                    @endforeach
+                                    @if (!count($product->images) > 0)
+                                        <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
+                                        <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
+                                        <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
+                                    @endif
                                 </div>
                             </main>
                         </div>
@@ -115,7 +120,8 @@
                                         <div class="col-lg-4 col-md-4 col-12">
 
                                             <div class="wish-button">
-                                                <button class="btn lni lni-heart add-wishlist" data-id="{{ $product->id }}">
+                                                <button class="btn lni lni-heart add-wishlist"
+                                                    data-id="{{ $product->id }}">
                                                     To Wishlist
                                                 </button>
                                             </div>
@@ -355,12 +361,12 @@
     <!-- End Review Modal -->
 
     @push('scripts')
-    <script>
-        const csrf_token = "{{ csrf_token() }}";
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="{{ asset('js/wishlist.js') }}"></script>
-    
+        <script>
+            const csrf_token = "{{ csrf_token() }}";
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="{{ asset('js/wishlist.js') }}"></script>
+
         <script type="text/javascript">
             const current = document.getElementById("current");
             const opacity = 0.6;

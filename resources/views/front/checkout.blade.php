@@ -264,14 +264,17 @@
                                                     <button class="btn" data-bs-toggle="collapse"
                                                         data-bs-target="#collapseThree" aria-expanded="false"
                                                         aria-controls="collapseThree">previous</button>
-                                                    <a href="javascript:void(0)" class="btn btn-alt">Save &
-                                                        Continue</a>
+                                                    {{-- <a href="javascript:void(0)" class="btn btn-alt">
+                                                        Save & Continue
+                                                    </a> --}}
+                                                    <button type="submit" id="submit" class="btn">
+                                                        Save & Continue
+                                                    </button </div>
                                                 </div>
                                             </div>
-                                        </div>
                                     </section>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <h6 class="title collapsed" data-bs-toggle="collapse"
                                         data-bs-target="#collapsefive" aria-expanded="false"
                                         aria-controls="collapsefive">Payment Info</h6>
@@ -288,7 +291,7 @@
                                             </div>
                                         </div>
                                     </section>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </form>

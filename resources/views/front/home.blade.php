@@ -1,4 +1,4 @@
-<x-front-layout>
+<x-front-layout title="home">
     <!-- Start Hero Area -->
     <section class="hero-area">
         <div class="container">
@@ -96,6 +96,8 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-12">
                     <!-- Start Single Category -->
+
+
                     <div class="single-category">
                         <h3 class="heading">TV & Audios</h3>
                         <ul>
@@ -799,35 +801,35 @@
             });
         </script>
         <script>
-            const finaleDate = new Date("February 15, 2023 00:00:00").getTime();
+            // const finaleDate = new Date("February 15, 2023 00:00:00").getTime();
 
-            const timer = () => {
-                const now = new Date().getTime();
-                let diff = finaleDate - now;
-                if (diff < 0) {
-                    document.querySelector('.alert').style.display = 'block';
-                    document.querySelector('.container').style.display = 'none';
-                }
+            // const timer = () => {
+            //     const now = new Date().getTime();
+            //     let diff = finaleDate - now;
+            //     if (diff < 0) {
+            //         document.querySelector('.alert').style.display = 'block';
+            //         document.querySelector('.container').style.display = 'none';
+            //     }
 
-                let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                let hours = Math.floor(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-                let minutes = Math.floor(diff % (1000 * 60 * 60) / (1000 * 60));
-                let seconds = Math.floor(diff % (1000 * 60) / 1000);
+            //     let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            //     let hours = Math.floor(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+            //     let minutes = Math.floor(diff % (1000 * 60 * 60) / (1000 * 60));
+            //     let seconds = Math.floor(diff % (1000 * 60) / 1000);
 
-                days <= 99 ? days = `0${days}` : days;
-                days <= 9 ? days = `00${days}` : days;
-                hours <= 9 ? hours = `0${hours}` : hours;
-                minutes <= 9 ? minutes = `0${minutes}` : minutes;
-                seconds <= 9 ? seconds = `0${seconds}` : seconds;
+            //     days <= 99 ? days = `0${days}` : days;
+            //     days <= 9 ? days = `00${days}` : days;
+            //     hours <= 9 ? hours = `0${hours}` : hours;
+            //     minutes <= 9 ? minutes = `0${minutes}` : minutes;
+            //     seconds <= 9 ? seconds = `0${seconds}` : seconds;
 
-                document.querySelector('#days').textContent = days;
-                document.querySelector('#hours').textContent = hours;
-                document.querySelector('#minutes').textContent = minutes;
-                document.querySelector('#seconds').textContent = seconds;
+            //     document.querySelector('#days').textContent = days;
+            //     document.querySelector('#hours').textContent = hours;
+            //     document.querySelector('#minutes').textContent = minutes;
+            //     document.querySelector('#seconds').textContent = seconds;
 
-            }
-            timer();
-            setInterval(timer, 1000);
+            // }
+            // timer();
+            // setInterval(timer, 1000);
         </script>
     @endpush
 

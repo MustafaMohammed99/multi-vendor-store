@@ -41,7 +41,6 @@ class CheckoutController extends Controller
 
         $items = $cart->get()->groupBy('product.store_id')->all();
 
-
         foreach ($items as $store_id => $cart_items) {
             DB::beginTransaction();
             try {
@@ -64,8 +63,8 @@ class CheckoutController extends Controller
                     $order->addresses()->create($address);
                 }
                 DB::commit();
-                event(new OrderCreated($order));
-                // $cart->empty();
+                // event(new OrderCreated($order));
+                $cart->empty();
 
             } catch (Throwable $e) {
                 DB::rollBack();
@@ -73,8 +72,7 @@ class CheckoutController extends Controller
             }
         }
 
-        dd($items);
+        return redirect()->route('orders.payments.create', $order->id);
 
-        return redirect()->route('home');
     }
 }

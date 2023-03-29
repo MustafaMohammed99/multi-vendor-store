@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Concerns\UploadImages;
+use App\Models\ImagesProduct;
+use App\Models\ProductImages;
 
 class ProductsController extends Controller
 {
-
+    use UploadImages;
     public function index()
     {
         // $this->authorize('view-any', Product::class);
@@ -33,10 +36,11 @@ class ProductsController extends Controller
     {
         // $this->authorize('create', Product::class);
         $product = new Product();
+        $product_images = new ProductImages();
         $categories = Category::all();
         $categories = $categories->pluck('name', 'id');
         $tags = '';
-        return view('dashboard.products.create', compact('categories', 'product', 'tags'));
+        return view('dashboard.products.create', compact('categories', 'product', 'tags', 'product_images'));
     }
 
 
@@ -45,11 +49,15 @@ class ProductsController extends Controller
         // Gate::authorize('categories.create');
         $request->validate(Product::rules());
 
-        $data = $request->except('image', 'tags');
-        $data['image'] = $this->uploadImgae($request);
+        $data = $request->except('image', 'tags', 'price', 'product_images');
+        $new_image = $this->uploadImage($request, 'image', 'products');
+        $data['image'] = $new_image;
+        $data['price'] = round($request->price);
         $data['store_id'] = 6;
+
         $product = Product::create($data);
         $this->addTags($request, $product);
+        $this->addImages($request, $product);
 
         return Redirect::route('dashboard.products.index')
             ->with('success', 'Proudct created!');
@@ -58,20 +66,22 @@ class ProductsController extends Controller
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('images')->findOrFail($id);
         $this->authorize('view', $product);
     }
 
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
         // $this->authorize('update', $product);
+
+        $product = Product::with('images')->findOrFail($id);
+        $product_images = $product->images->pluck('image')->toArray();
         $categories = Category::all();
         $categories = $categories->pluck('name', 'id');
         $tags = implode(',', $product->tags()->pluck('name')->toArray());
 
-        return view('dashboard.products.edit', compact('product', 'tags', 'categories'));
+        return view('dashboard.products.edit', compact('product', 'tags', 'categories', 'product_images'));
     }
 
 
@@ -83,10 +93,12 @@ class ProductsController extends Controller
         $data = $request->except('image', 'tags');
         $data['store_id'] = 6;
 
-        $new_image = $this->uploadImgae($request);
+        $new_image = $this->uploadImage($request, 'image', 'products');
         if ($new_image) {
             $data['image'] = $new_image;
         }
+
+        $this->addImages($request, $product);
 
         $product->update($data);
         $this->addTags($request, $product);
@@ -119,6 +131,19 @@ class ProductsController extends Controller
                 $tag_ids[] = $tag->id;
             }
         $product->tags()->sync($tag_ids);
+    }
+
+    public function addImages($request, $product)
+    {
+        $product_images = $this->uploadImages($request, 'product_images', 'products');
+        if ($product_images) {
+            foreach ($product_images as  $product_images) {
+                ProductImages::create([
+                    'product_id' => $product->id,
+                    'image' => $product_images
+                ]);
+            }
+        }
     }
 
     public function destroy(Product $product)
@@ -157,25 +182,10 @@ class ProductsController extends Controller
         $category->forceDelete();
 
         if ($category->image) {
-            Storage::disk('public')->delete($category->image);
+            Storage::disk('uploads')->delete($category->image);
         }
 
         return redirect()->route('dashboard.products.trash')
             ->with('succes', 'Product deleted forever!');
-    }
-
-
-    protected function uploadImgae(Request $request)
-    {
-        if (!$request->hasFile('image')) {
-            return;
-        }
-
-        $file = $request->file('image'); // UploadedFile Object
-
-        $path = $file->store('uploads', [
-            'disk' => 'public'
-        ]);
-        return $path;
     }
 }

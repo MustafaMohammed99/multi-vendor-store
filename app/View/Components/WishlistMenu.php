@@ -8,13 +8,10 @@ use Illuminate\View\Component;
 class WishlistMenu extends Component
 {
     public $wishlists;
-    public $s;
 
     public function __construct()
     {
-        // $this->wishlists = Wishlist::wiht('product')->get();
-           $this->wishlists = Wishlist::with('product')->get();
-        $this->s = $this->wishlists->count();
+        $this->wishlists = Wishlist::with('product')->get();
     }
 
 

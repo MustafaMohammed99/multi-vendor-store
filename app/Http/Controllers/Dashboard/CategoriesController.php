@@ -15,14 +15,12 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use App\Concerns\UploadImages;
 
 class CategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    use UploadImages;
+
     public function index()
     {
         // if (!Gate::allows('categories.view')) {
@@ -58,24 +56,12 @@ class CategoriesController extends Controller
     {
         // Gate::authorize('categories.create');
 
-        $clean_data = $request->validate(Category::rules(), [
-            'required' => 'This field (:attribute) is required',
-            'name.unique' => 'This name is already exists!'
-        ]);
-
-        // Request merge
-        $request->merge([
-            'slug' => Str::slug($request->post('name'))
-        ]);
+        $request->validate(Category::rules());
 
         $data = $request->except('image');
-        $data['image'] = $this->uploadImgae($request);
-
-
-        // Mass assignment
+        $data['image'] = $this->uploadImage($request,  'image', 'categories');
         Category::create($data);
 
-        // PRG
         return Redirect::route('dashboard.categories.index')
             ->with('success', 'Category created!');
     }
@@ -97,12 +83,10 @@ class CategoriesController extends Controller
 
     public function edit($id)
     {
-
         // Gate::authorize('categories.update');
 
         try {
             $category = Category::findOrFail($id);
-            // dd($category);
         } catch (Exception $e) {
             return redirect()->route('dashboard.categories.index')
                 ->with('info', 'Record not found!');
@@ -120,32 +104,22 @@ class CategoriesController extends Controller
         return view('dashboard.categories.edit', compact('category', 'parents'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(CategoryRequest $request, $id)
     {
-        //$request->validate(Category::rules($id));
+        $request->validate(Category::rules($id));
 
         $category = Category::findOrFail($id);
-
         $old_image = $category->image;
 
         $data = $request->except('image');
-        $new_image = $this->uploadImgae($request);
+        $new_image = $this->uploadImage($request, 'image', 'categories');
         if ($new_image) {
             $data['image'] = $new_image;
         }
-
         $category->update($data);
-        //$category->fill($request->all())->save();
-
         if ($old_image && $new_image) {
-            Storage::disk('public')->delete($old_image);
+            Storage::disk('uploads')->delete($old_image);
         }
 
         return Redirect::route('dashboard.categories.index')
@@ -156,29 +130,9 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         // Gate::authorize('categories.delete');
-
         $category->delete();
-
-        //Category::where('id', '=', $id)->delete();
-        //Category::destroy($id);
-
-
         return Redirect::route('dashboard.categories.index')
             ->with('success', 'Category deleted!');
-    }
-
-    protected function uploadImgae(Request $request)
-    {
-        if (!$request->hasFile('image')) {
-            return;
-        }
-
-        $file = $request->file('image'); // UploadedFile Object
-
-        $path = $file->store('uploads', [
-            'disk' => 'public'
-        ]);
-        return $path;
     }
 
     public function trash()
@@ -210,7 +164,7 @@ class CategoriesController extends Controller
         $category->forceDelete();
 
         if ($category->image) {
-            Storage::disk('public')->delete($category->image);
+            Storage::disk('uploads')->delete($category->image);
         }
 
         return redirect()->route('dashboard.categories.trash')

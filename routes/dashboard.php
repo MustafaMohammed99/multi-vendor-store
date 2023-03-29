@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\AdminsController;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\ImportProductsController;
+use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\ProductsController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\RolesController;
@@ -11,14 +12,19 @@ use App\Http\Controllers\Dashboard\StoresController;
 use App\Http\Controllers\Dashboard\UsersController;
 use Illuminate\Support\Facades\Route;
 
-
+/*
+compposer update
+Class Hypweb\Flysystem\Cached\Extra\disableEnsureParentDirectories located in ./vendor/nao-pon/flysystem-cached-extra/src/DisableEnsureParentDirectories.php does not comply with psr-4 autoloading standard. Skipping.
+*/
 
 Route::group([
-        'middleware' => 'auth:admin,web',
+    'middleware' => 'auth:admin,web',
     'as' => 'dashboard.',
     'prefix' => 'admin/dashboard',
 ], function () {
 
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
 

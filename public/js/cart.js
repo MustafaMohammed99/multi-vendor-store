@@ -1,18 +1,19 @@
-(function($) {
+(function ($) {
 
-    $('.item-quantity').on('change', function(e) {
-
+    $('.item-quantity').on('change', function (e) {
         $.ajax({
             url: "/cart/" + $(this).data('id'), //data-id
             method: 'put',
             data: {
                 quantity: $(this).val(),
                 _token: csrf_token
+            }, success: response => {
+                alert(response.sub_total);
             }
         });
     });
 
-    $('.remove-item').on('click', function(e) {
+    $('.remove-item').on('click', function (e) {
 
         let id = $(this).data('id');
         $.ajax({
@@ -27,7 +28,7 @@
         });
     });
 
-    $('.add-to-cart').on('click', function(e) {
+    $('.add-to-cart').on('click', function (e) {
 
         $.ajax({
             url: "/cart",

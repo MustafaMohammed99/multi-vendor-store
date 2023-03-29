@@ -258,7 +258,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </script>
 
     {{-- <script src="{{ asset('js/pusher.js') }}"></script> --}}
-    @vite('resources/js/app.js')
+    {{-- @vite('resources/js/app.js') --}}
 
     @stack('scripts')
 </body>

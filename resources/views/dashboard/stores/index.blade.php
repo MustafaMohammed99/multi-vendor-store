@@ -10,9 +10,7 @@
 @section('content')
 
     <div class="mb-5">
-        {{-- @if (Auth::user()->can('stores.create')) --}}
-        {{-- <a href="{{ route('dashboard.stores.create') }}" class="btn btn-sm btn-outline-primary mr-2">Create</a> --}}
-        {{-- @endif --}}
+        <a href="{{ route('dashboard.stores.create') }}" class="btn btn-sm btn-outline-primary mr-2">Create</a>
         <a href="{{ route('dashboard.stores.trash') }}" class="btn btn-sm btn-outline-dark">Trash</a>
     </div>
 
@@ -32,7 +30,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th></th>
+                <th>logo</th>
+                <th>cover</th>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Products #</th>
@@ -44,20 +43,21 @@
         <tbody>
             @forelse($stores as $store)
                 <tr>
-                    <td><img src="{{ $store->image_url }}" alt="" height="50"></td>
+                    <td><img src="{{ $store->logo_image_url }}" alt="" height="50"></td>
+                    <td><img src="{{ $store->cover_image_url }}" alt="" height="50"></td>
                     <td>{{ $store->id }}</td>
                     <td><a href="{{ route('dashboard.stores.show', $store->id) }}">{{ $store->name }}</a></td>
                     <td>{{ $store->products_count }}</td>
                     <td>{{ $store->status }}</td>
                     <td>{{ $store->created_at }}</td>
                     <td>
-                        {{-- @can('stores.delete') --}}
-                        <form action="{{ route('dashboard.stores.destroy', $store->id) }}" method="post">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
-                        {{-- @endcan --}}
+                    {{-- @can('stores.delete') --}}
+                    <form action="{{ route('dashboard.stores.destroy', $store->id) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                    {{-- @endcan --}}
                     </td>
                 </tr>
             @empty

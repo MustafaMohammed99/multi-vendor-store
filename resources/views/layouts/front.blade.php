@@ -486,6 +486,13 @@
     <script src="{{ asset('assets/js/glightbox.min.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
+
+    <script>
+        const userId= "{{Auth::user()->id ?? Session::getId()}}"
+    </script>
+
+    @vite(['resources/js/pusher.js'])
+
     @stack('scripts')
 
 </body>

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Services\CurrencyConverter;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('currency.converter', function () {
             return new CurrencyConverter(config('services.currency_converter.api_key'));
         });
+
+
+        $this->app->bind('stripe.client', function () {
+            return new \Stripe\StripeClient(config('services.stripe.secret_key'));
+        });
     }
 
     /**
@@ -26,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrap();
+        
     }
 }

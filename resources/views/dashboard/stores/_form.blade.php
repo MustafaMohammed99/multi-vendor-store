@@ -10,35 +10,71 @@
 @endif
 
 <div class="form-group">
-    <x-form.input label="Category Name" class="form-control-lg" role="input" name="name" :value="$category->name" />
+    <x-form.input label="Store Name" class="form-control-lg" type="input" name="name" :value="$store->name" />
 </div>
-<div class="form-group">
-    <label for="">Category Parent</label>
-    <select name="parent_id" class="form-control form-select">
-        <option value="">Primary Category</option>
-        @foreach ($parents as $parent)
-            <option value="{{ $parent->id }}" @selected(old('parent_id', $category->parent_id) == $parent->id)>{{ $parent->name }}</option>
-        @endforeach
-    </select>
-</div>
+
 <div class="form-group">
     <label for="">Description</label>
-    <x-form.textarea name="description" :value="$category->description" />
+    <x-form.textarea name="description" :value="$store->description" />
 </div>
+
 <div class="form-group">
-    <x-form.label id="image">Image</x-form.label>
-    <x-form.input type="file" name="image" accept="image/*" />
-    @if ($category->image)
-        <div>{{$category->image}}</div>
-        <img src="{{ asset('storage/' . $category->image) }}" alt="" height="60">
+    <label for="">logo Image</label>
+    <x-form.input type="file" name="logo_image" accept="image/*" />
+    @if ($store->image)
+        <div>{{ $store->image }}</div>
+        <img src="{{ asset('storage/' . $store->image) }}" alt="" height="60">
     @endif
 </div>
+
+<div class="form-group">
+    <label for="">logo Image</label>
+    <x-form.input type="file" name="cover_image" accept="image/*" />
+    @if ($store->image)
+        <div>{{ $store->image }}</div>
+        <img src="{{ asset('storage/' . $store->image) }}" alt="" height="60">
+    @endif
+</div>
+
+
 <div class="form-group">
     <label for="">Status</label>
-    <div>
-        <x-form.radio name="status" :checked="$category->status" :options="['active' => 'Active', 'archived' => 'Archived']" />
-    </div>
+    <x-form.radio name="status" :checked="$store->status" :options="['active' => 'Active', 'inactive' => 'InActive']" />
 </div>
+
+
+
+<x-auth-validation-errors />
+
+<div class="form-group">
+    <x-form.input label="name owner store " class="form-control-lg" name="user_name" :value="$user->name" />
+</div>
+
+<div class="form-group">
+    <x-form.input id="phone_parent" name="user_phone_parent" label="phone number owner" type="number" :value="$user->phone_parent"
+        class="form-control-border" />
+</div>
+
+<div class="form-group">
+    <x-form.input label="email owner" type="email" name="user_email" :value="$user->email" />
+</div>
+
+{{-- <div class="form-group">
+    <label for="">Type user</label>
+    <div>
+        <x-form.radio name="user_type" :checked="$user->type" :options="['super-admin' => 'super-admin', 'admin' => 'admin', 'user' => 'user']" />
+    </div>
+</div> --}}
+
+@if ($showPassword === true)
+    <div class="form-group">
+        <x-form.input label="password owner" type="password" name="user_password" />
+    </div>
+@endif
+
+
+
+
 <div class="form-group">
     <button type="submit" class="btn btn-primary">{{ $button_label ?? 'Save' }}</button>
 </div>

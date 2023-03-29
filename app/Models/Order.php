@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class Order extends Model
 {
@@ -22,7 +23,7 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class)->withDefault([
-            'name' => 'Guest Customer'
+            'name' => 'Guest'
         ]);
     }
 
@@ -32,9 +33,21 @@ class Order extends Model
             ->using(OrderItem::class)
             ->as('order_item')
             ->withPivot([
-                'product_name', 'price', 'quantity', 'options',
+                'quantity', 'options',
             ]);
     }
+
+    // public function recipients()
+    // {
+    //     return $this->hasManyThrough(
+    //         Recipient::class,
+    //         Message::class,
+    //         'conversation_id',
+    //         'message_id',
+    //         'id',
+    //         'id'
+    //     );
+    // }
 
     public function items()
     {
@@ -82,5 +95,25 @@ class Order extends Model
             return $number + 1;
         }
         return $year . '0001';
+    }
+
+    public function scopeFilter(Builder $builder, $filters)
+    {
+        $builder->when($filters['payment_status'] ?? false, function ($builder, $value) {
+            $builder->where('orders.payment_status', '=', $value);
+        });
+    }
+
+    // 'store_id', 'user_id', 'payment_method', 'status', 'payment_status',
+
+    public static function rules()
+    {
+        return [
+            'store_id' => ['required', 'int', 'exists:stores,id'],
+            'user_id' => ['required', 'int', 'exists:users,id'],
+            'status' => 'required|in:pending,processing,delivering,completed,cancelled,refunded',
+            'payment_method' => ['required', 'string'],
+            'payment_status' => 'required|in:pending,paid,failed',
+        ];
     }
 }

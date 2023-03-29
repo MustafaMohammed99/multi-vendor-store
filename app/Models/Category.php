@@ -22,6 +22,14 @@ class Category extends Model
         'name', 'parent_id', 'description', 'image', 'status', 'slug'
     ];
 
+
+    protected static function booted()
+    {
+        static::creating(function (Category $category) {
+            $category->slug = Str::slug($category->name);
+        });
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class, 'category_id', 'id');
@@ -66,7 +74,7 @@ class Category extends Model
         if (Str::startsWith($this->image, ['http://', 'https://'])) {
             return $this->image;
         }
-        return asset('storage/' . $this->image);
+        return asset('uploads/' . $this->image);
     }
 
     public static function rules($id = 0)

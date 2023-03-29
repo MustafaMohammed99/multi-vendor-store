@@ -1,6 +1,16 @@
 <?php
 
 return [
+
+    // 'parent_asmins' => [
+    //     [
+    //         'icon' => 'fas fa-users nav-icon',
+    //         'route' => 'dashboard.admins.index',
+    //         'title' => 'Admins',
+    //         'active' => 'dashboard.admins.*',
+    //         'ability' => 'admins.view',
+    //     ],
+    // ],
     [
         'icon' => 'nav-icon fas fa-tachometer-alt',
         'route' => 'dashboard.dashboard',
@@ -31,7 +41,7 @@ return [
     ],
     [
         'icon' => 'fas fa-receipt nav-icon',
-        'route' => 'dashboard.categories.index',
+        'route' => 'dashboard.orders.index',
         'title' => 'Orders',
         'active' => 'dashboard.orders.*',
         'ability' => 'orders.view',

@@ -200,7 +200,7 @@ return [
         App\Providers\FortifyServiceProvider::class,
 
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
-
+        App\Providers\GoogleDriveServiceProvider::class,
     ],
 
     /*
@@ -217,7 +217,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Currency' => App\Helpers\Currency::class,
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
-        
+
 
     ])->toArray(),
 

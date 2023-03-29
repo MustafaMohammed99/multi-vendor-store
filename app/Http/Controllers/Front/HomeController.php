@@ -10,7 +10,7 @@ class HomeController extends Controller
     public function index()
     {
         $products = Product::with('category')->active()
-            //->latest()
+            ->latest()
             ->limit(8)
             ->get();
 
