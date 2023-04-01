@@ -59,7 +59,7 @@ class CategoriesController extends Controller
         $request->validate(Category::rules());
 
         $data = $request->except('image');
-        $data['image'] = $this->uploadImage($request,  'image', 'categories');
+        $data['image'] = $this->uploadImageGoogle($request,  'image', 'categories');
         Category::create($data);
 
         return Redirect::route('dashboard.categories.index')
@@ -113,7 +113,7 @@ class CategoriesController extends Controller
         $old_image = $category->image;
 
         $data = $request->except('image');
-        $new_image = $this->uploadImage($request, 'image', 'categories');
+        $new_image = $this->uploadImageGoogle($request, 'image', 'categories');
         if ($new_image) {
             $data['image'] = $new_image;
         }

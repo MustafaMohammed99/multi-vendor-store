@@ -491,7 +491,9 @@
         const userId= "{{Auth::user()->id ?? Session::getId()}}"
     </script>
 
-    @vite(['resources/js/pusher.js'])
+    {{-- @vite(['resources/js/pusher.js']) --}}
+
+    <script src="{{ asset('js/js/pusher.js') }}"></script>
 
     @stack('scripts')
 

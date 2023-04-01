@@ -13,10 +13,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
+
+
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <link href="https://unpkg.com/filepond@latest/dist/filepond.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet" />
+
+
     @stack('styles')
 </head>
 
@@ -253,6 +262,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
+
+
+
     <script>
         const userId = "{{ Auth::id() }}";
     </script>
@@ -260,7 +272,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {{-- <script src="{{ asset('js/pusher.js') }}"></script> --}}
     {{-- @vite('resources/js/app.js') --}}
 
+
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    {{-- <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script> --}}
+    {{-- <script src="https://unpkg.com/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.js"> --}}
+    </script>
+    <script src="https://unpkg.com/filepond@latest/dist/filepond.min.js"></script>
+
+
     @stack('scripts')
+
 </body>
 
 </html>

@@ -14,17 +14,16 @@ trait UploadImages
         if (!$request->hasFile($name_image_inForm)) {
             return;
         }
-        if ($request->hasFile($name_image_inForm)) {
-            $file = $request->file($name_image_inForm);
-            if ($file->isValid()) {
-                $path = $file->store($folder_place, [
-                    'disk' => $name_disk,
-                ]);
-            }
+        $file = $request->file($name_image_inForm);
+        if ($file->isValid()) {
+            $path = $file->store($folder_place, [
+                'disk' => $name_disk,
+            ]);
         }
+
         if ($path) {
             if ($name_disk === 'google') {
-                $path = Storage::disk('google')->url($path);
+                $path = Storage::disk('google')->path($path);
             }
             return $path;
         }
@@ -47,7 +46,7 @@ trait UploadImages
 
                 if ($path) {
                     if ($name_disk === 'google') {
-                        $path = Storage::disk('google')->url($path);
+                        $url = Storage::disk('google')->url($path);
                     }
                     $images_product[] = $path;
                 }
@@ -56,5 +55,55 @@ trait UploadImages
 
         return $images_product;
     }
-}
 
+
+
+
+    public function uploadImageGoogle($request, $name_image_inForm, $folder_place = 'other')
+    {
+        if (!$request->hasFile($name_image_inForm)) {
+            return;
+        }
+        $file = $request->file($name_image_inForm);
+        if ($file->isValid()) {
+            $path = $file->store($folder_place, [
+                'disk' => 'google',
+            ]);
+        }
+        if ($path) {
+            $url = Storage::disk('google')->url($path);
+            return [
+                'path' => $path,
+                'url' => $url,
+            ];
+        }
+        return;
+    }
+
+    public function uploadImagesGoogle($request, $name_image_inForm, $folder_place = 'other')
+    {
+        if (!$request->hasFile($name_image_inForm)) {
+            return;
+        }
+
+        $files = $request->file($name_image_inForm);
+        $images_product = [];
+        foreach ($files as $file) {
+            if ($file->isValid()) {
+                $path = $file->store($folder_place, [
+                    'disk' => 'google',
+                ]);
+
+                if ($path) {
+                    $url = Storage::disk('google')->url($path);
+                    $images_product[] =
+                        [
+                            'path' => $path,
+                            'url' => $url,
+                        ];
+                }
+            }
+        }
+        return $images_product;
+    }
+}

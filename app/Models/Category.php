@@ -14,14 +14,17 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $appends = [
-        'image_url',
-    ];
-
     protected $fillable = [
         'name', 'parent_id', 'description', 'image', 'status', 'slug'
     ];
 
+    protected $appends = [
+        'image_url',
+    ];
+
+    protected $casts = [
+        'image' => 'json',
+    ];
 
     protected static function booted()
     {

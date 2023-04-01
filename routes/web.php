@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\FileUploadController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CurrencyConverterController;
@@ -9,7 +10,9 @@ use App\Http\Controllers\Front\ProductsController;
 use App\Http\Controllers\Front\StripePaymentController;
 use App\Http\Controllers\Front\StripeWebhookController;
 use App\Http\Controllers\Front\WishlistController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,5 +59,33 @@ Route::post('currency', [CurrencyConverterController::class, 'store'])
     ->name('currency.store');
 
 
+Route::post('upload/filepond', [FileUploadController::class, 'store']);
+Route::delete('revert/filepond', [FileUploadController::class, 'revert']);
+
+Route::post('/filepond/validate', function (Request $request) {
+    // $validatedData = $request->validate([
+    //     'filepond' => ['required', 'file', 'max:1024'], // 'filepond' is the name of the uploaded file
+    // ]);
+
+    $validator = Validator::make($request->all(), [
+        "image"  => 'required|image|max:50', //max size is 2MB
+        // add more fields and validation rules as needed
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()]);
+    }
+
+    return response()->json(['success' => true]);
+});
+
 
 require __DIR__ . '/dashboard.php';
+
+
+
+/*
+الاادمن ما بيقدر ينشأ منتج لانو ما معوش اي ديه المتجر
+الحل
+نمنع الادمن من انشاء متجر او بخليه ينشأ بس بعطيه اي ايديه من المتاجر الي موجوده
+*/

@@ -59,8 +59,8 @@ class StoresController extends Controller
         try {
 
             $data = $request->except('logo_image', 'cover_image');
-            $data['logo_image'] = $this->uploadImage($request, 'logo_image', 'stores');
-            $data['cover_image'] = $this->uploadImage($request, 'cover_image', 'stores');
+            $data['logo_image'] = $this->uploadImageGoogle($request, 'logo_image', 'stores');
+            $data['cover_image'] = $this->uploadImageGoogle($request, 'cover_image', 'stores');
             Store::create($data);
 
             User::create([

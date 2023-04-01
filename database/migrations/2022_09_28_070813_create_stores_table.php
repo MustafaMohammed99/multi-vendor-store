@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name'); // VARCHAR(255)
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('logo_image')->nullable();
-            $table->string('cover_image')->nullable();
+            $table->text('logo_image');
+            $table->text('cover_image');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

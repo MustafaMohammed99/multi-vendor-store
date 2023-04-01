@@ -17,6 +17,10 @@ class ProductImages extends Model
         'product_id', 'image'
     ];
 
+    protected $casts = [
+        'image' => 'json',
+    ];
+
     protected $appends = [
         'image_url',
     ];

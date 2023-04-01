@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('wishlist', function (Blueprint $table) {
+        Schema::create('wishlists', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('cookie_id');
             $table->foreignId('user_id')
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wishlis');
+        Schema::dropIfExists('wishlists');
     }
 };

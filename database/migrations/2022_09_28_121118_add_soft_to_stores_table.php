@@ -21,8 +21,8 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('store_id');
+        Schema::table('stores', function (Blueprint $table) {
+            $table->dropSoftDeletes();
         });
     }
 };

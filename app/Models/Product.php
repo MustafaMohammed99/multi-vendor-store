@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Scopes\StoreScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class Product extends Model
 {
@@ -18,8 +20,12 @@ class Product extends Model
         'price', 'compare_price', 'status',
     ];
 
+    protected $casts = [
+        'image' => 'json',
+    ];
+
+
     protected $hidden = [
-        'image',
         'created_at', 'updated_at', 'deleted_at',
     ];
 
@@ -75,17 +81,16 @@ class Product extends Model
         $builder->where('status', '=', 'active');
     }
 
+
     // Accessors
     // $product->image_url
     public function getImageUrlAttribute()
     {
-        if (!$this->image) {
-            return 'https://www.incathlab.com/images/products/default_product.png';
+        $google_image = json_decode($this->image);
+        if ($google_image !== null && isset($google_image->url)) {
+            return $google_image->url;
         }
-        if (Str::startsWith($this->image, ['http://', 'https://'])) {
-            return $this->image;
-        }
-        return asset('uploads/' . $this->image);
+        return 'https://www.incathlab.com/images/products/default_product.png';
     }
 
     public function getSalePercentAttribute()
@@ -153,10 +158,17 @@ class Product extends Model
             'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
             'compare_price' => ['nullable', 'regex:/^\d+(\.\d{1,2})?$/'],
 
-            'image' => [
-                'image', 'nullable', 'max:1048576', 'dimensions:min_width=100,min_height=100',
-            ],
+            // 'image' => [
+            //     'string', 'required',
+            //     // 'image', 'required', 'max:1048576', 'dimensions:min_width=100,min_height=100',
+            // ],
             'status' => 'required|in:active,draft,archived',
+
+
+            // 'admin' => [Rule::exists('admins', 'id')->where(function ($query) use ($id) {
+            //     if ($id == 0) //  if == 0 اذا كان الاي ديه صفر يعني الان هوا قاعد بعدل ما بينشأ
+            //         return false; // منعتوا من الانشاء لان المنتج بيحتوي على اي ده متجر وهوا  ادمن ما فش معوا متاجر
+            // })]
         ];
     }
 }

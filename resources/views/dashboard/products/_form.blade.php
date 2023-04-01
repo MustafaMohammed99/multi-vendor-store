@@ -1,3 +1,5 @@
+<x-alert-errors />
+
 <div class="form-group">
     <x-form.input label="Product Name" class="form-control-lg" role="input" name="name" :value="$product->name" />
 </div>
@@ -22,35 +24,39 @@
     <x-form.textarea name="description" :value="$product->description" />
 </div>
 
+@push('styles')
+    <style>
+        .filepond--root {
+            height: 100%;
+        }
+    </style>
+@endpush
 
 <div class="form-group">
     <x-form.label id="image">Image</x-form.label>
-    <x-form.input type="file" name="image" accept="image/*" />
+    <x-form.input type="file" name="image" accept="image/*" id="image" data-max-file-size="100KB" />
     @if ($product->image)
         <img src="{{ $product->image_url }}" alt="" height="50">
     @endif
 </div>
 
-<div class="col-md-4 form-group">
-    <label for="product_images"> images product</label>
-    <input type="file" name="product_images[]" id="product_images" accept="image/*" multiple
-        class="uploadButton-input @error('product_images') is-invalid @enderror">
+<div class="mt-4">
+    <div class="form-group">
+        <x-form.label id="product_images">Image product</x-form.label>
+        <x-form.input type="file" name="product_images[]" accept="image/*" multiple id="product_images" />
 
-    @if (is_array($product_images))
-        <div>
-            <ul>
-                @foreach ($product_images as $image_url)
-                    <img src="{{ $image_url }}" alt="" height="50">
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        @if (is_array($product_images))
+            <div>
+                <ul>
+                    @foreach ($product_images as $image_url)
+                        <img src="{{ $image_url }}" alt="" height="50">
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    @error('image')
-        <p class="invalid-feedback">{{ $message }}</p>
-    @enderror
+    </div>
 </div>
-
 
 
 

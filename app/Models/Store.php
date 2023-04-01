@@ -16,13 +16,20 @@ class Store extends Model
 {
     use HasFactory, Notifiable, SoftDeletes;
 
-    protected $appends = [
-        'logo_image_url',
-        'cover_image_url',
-    ];
+
 
     protected $fillable = [
         'name', 'slug', 'description', 'logo_image', 'cover_image', 'status',
+    ];
+
+    protected $casts = [
+        'logo_image' => 'json',
+        'cover_image' => 'json',
+    ];
+
+    protected $appends = [
+        'logo_image_url',
+        'cover_image_url',
     ];
 
     protected $hidden = [
