@@ -20,16 +20,25 @@ By using filepond to upload files, you can improve the user experience by allowi
 <a name="screenshots"></a>
 ## 📸 Screenshots
 
+## screens ltr website
 ||||
 |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
 | ![Imgur](screanshots/front/en/front_index.png) | ![Imgur](screanshots/front/en/front_show.png) | ![Imgur](screanshots/front/en/front_search.png) |
+
+## screens rtl website
+||||
+|:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
 | ![Imgur](screanshots/front/ar/ar_front_index.png) | ![Imgur](screanshots/front/ar/ar_front_show.png) | ![Imgur](screanshots/front/ar/ar_front_search.png) |
 
 
-## screen dashboard
+## screens ltr dashboard
 ||||
 |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
 | ![Imgur](screanshots/index_product.png) | ![Imgur](screanshots/create_product.png) | ![Imgur](screanshots/role.png) |
+
+## screens rtl dashboard
+|||
+|:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
 | ![Imgur](screanshots/ar_index_product.png) | ![Imgur](screanshots/ar_role.png) | 
 
 <a name="requirements"></a>
