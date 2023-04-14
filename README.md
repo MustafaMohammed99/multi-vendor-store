@@ -38,7 +38,7 @@ By using filepond to upload files, you can improve the user experience by allowi
 
 ## screens rtl dashboard
 |||
-|:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
+|:----------------------------------------:|:-----------------------------------------:|
 | ![Imgur](screanshots/ar_index_product.png) | ![Imgur](screanshots/ar_role.png) | 
 
 <a name="requirements"></a>
