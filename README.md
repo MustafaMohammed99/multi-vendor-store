@@ -1,66 +1,140 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+    <a href="https://github.com/MustafaMohammed99/multi-vendor-store"> <h1 align="center">Multi-Vendor-Store </h1></a>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+    ## Uses
+    * Storage files on googel drive 
+        By using Google Drive to store your files, you can reduce the amount of time it takes to load files on your website, as the files are being               served from Google's servers instead of your own.
+    * Upload files by  package filepond
+        By using filepond to upload files, you can improve the user experience by allowing users to upload files seamlessly without requiring a                   page refresh(upload asynchronous).
+    * support multi language by package mcamara
+    * Payment by package stripe .
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    #
+    ## Table of Contents
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    * [Screenshots](#screenshots)
+    * [Requirements](#requirements)
+    * [Dependencies](#dependencies)
+    * [Installation](#installation)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    <a name="screenshots"></a>
+    ## 📸 Screenshots
 
-## Learning Laravel
+    ||||
+    |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
+    | ![Imgur](screanshots/front/en/front_index.png) | ![Imgur](screanshots/front/en/front_show.png) | ![Imgur](screanshots/front/en/front_search.png) |
+    | ![Imgur](screanshots/front/ar/ar_front_index.png) | ![Imgur](screanshots/front/ar/ar_front_show.png) | ![Imgur](screanshots/front/ar/ar_front_search.png) |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    <a name="requirements"></a>
+    ## Requirements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    Package | Version
+    --- | ---
+    [Composer](https://getcomposer.org/) | V2.1.12+
+    [Php](https://www.php.net/)          | V8.0.2+
+    [Node](https://nodejs.org/en/)       | v18.12.0+
+    [Npm](https://nodejs.org/en/)        | V9.1.2+ 
 
-## Laravel Sponsors
+    <a name="dependencies"></a>
+    ## dependencies
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    Package | Version
+    ---- | ----
+    [masbug/flysystem-google-drive-ext](https://github.com/masbug/flysystem-google-drive-ext) | ^2.2
+    [mcamara/laravel-localization](https://github.com/mcamara/laravel-localization) | ^1.8
+    [stripe/stripe-php](https://github.com/stripe/stripe-php) | ^10.10
+    [laravel/fortify](https://github.com/laravel/fortify) | ^1.13
+    [pusher/pusher-php-server](https://github.com/pusher/pusher-http-php) | ^7.0
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    <a name="installation"></a>
+    ## Installation
 
-## Contributing
+    > **Warning**
+    > Make sure to follow the requirements first.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    Here is how you can run the project locally:
+    1. Clone this repo
+        ```sh
+        git clone https://github.com/MustafaMohammed99/multi-vendor-store.git
+        ```
 
-## Code of Conduct
+    1. Go into the project root directory
+        ```sh
+        cd multi-vendor-store
+        ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    1. Copy .env.example file to .env file
+        ```sh
+        cp .env.example .env
+        ```
+    1. Create database `tds_store` (you can change database name)
 
-## Security Vulnerabilities
+    1. Go to `.env` file 
+        - set database credentials 
+            ```sh 
+            DB_DATABASE=multi_store
+            DB_USERNAME=root
+            DB_PASSWORD=[YOUR PASSWORD]
+            ```
+        > Make sure to follow your database username and password
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    1. Go to `.env` file 
+        - set google drive credentials 
+            ```sh 
+            GOOGLE_DRIVE_CLIENT_ID =
+            GOOGLE_DRIVE_CLIENT_SECRET =
+            GOOGLE_DRIVE_REFRESH_TOKEN =
+            ```
+        >  Getting Google Keys 
+            - [Getting your Client ID and Secret](https://github.com/ivanvermeyen/laravel-google-drive-demo/blob/master/README/1-getting-your-dlient-id-and-            secret.md)
+            - [Getting your Refresh Token](https://github.com/ivanvermeyen/laravel-google-drive-demo/blob/master/README/2-getting-your-refresh-token.md)
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+    1. Install PHP dependencies 
+        ```sh
+        composer update
+        ```
+
+    1. Generate key 
+        ```sh
+        php artisan key:generate
+        ```
+
+    1. install front-end dependencies
+        ```sh
+        npm install && npm run dev
+        ```
+
+    1. Run migration
+        ```
+        php artisan migrate
+        ```
+
+    1. Run seeder
+
+        > **Recommended**
+        >  mail configuration in .env file before seeding.
+
+        ```
+        php artisan db:seed
+        ```
+        this command will create users (admin and normal user):
+         > this link to login admin system http://localhost:8000/admin/login email: admin@gmail.com , password: password
+
+
+    1. Run server 
+
+        ```sh
+        php artisan serve
+        ```  
+
+    1. Visit [localhost:8000](http://localhost:8000) in your favoriite browser.
+
+        > Make sure to follow your Laravel local Development Environment.
+
+    1. notifications feature configuration (optional)
+     - Go to [pusher](https://pusher.com)
+     - Register your account, get API key and paste it into `.env` file.
