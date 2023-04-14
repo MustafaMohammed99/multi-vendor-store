@@ -26,6 +26,12 @@ By using filepond to upload files, you can improve the user experience by allowi
 | ![Imgur](screanshots/front/ar/ar_front_index.png) | ![Imgur](screanshots/front/ar/ar_front_show.png) | ![Imgur](screanshots/front/ar/ar_front_search.png) |
 
 
+## screen dashboard
+||||
+|:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
+| ![Imgur](screanshots/index_product.png) | ![Imgur](screanshots/create_product.png) | ![Imgur](screanshots/role.png) |
+| ![Imgur](screanshots/ar_index_product.png) | ![Imgur](screanshots/ar_role.png) | 
+
 <a name="requirements"></a>
 ## Requirements
 
