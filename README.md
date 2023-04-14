@@ -1,6 +1,6 @@
 <a href="https://github.com/MustafaMohammed99/multi-vendor-store"> <h1 align="center">Multi-Vendor-Store </h1></a>
 
-## Uses
+## The Uses
 * Storage files on googel drive 
 By using Google Drive to store your files, you can reduce the amount of time it takes to load files on your website, as the files are being               served from Google's servers instead of your own.
 * Upload files by  package filepond
@@ -75,18 +75,18 @@ Here is how you can run the project locally:
 git clone https://github.com/MustafaMohammed99/multi-vendor-store.git
 ```
 
-1. Go into the project root directory
+2. Go into the project root directory
 ```sh
 cd multi-vendor-store
 ```
 
-1. Copy .env.example file to .env file
+3. Copy .env.example file to .env file
 ```sh
 cp .env.example .env
 ```
-1. Create database `tds_store` (you can change database name)
+4. Create database `tds_store` (you can change database name)
 
-1. Go to `.env` file 
+4. Go to `.env` file 
 - set database credentials 
 ```sh 
 DB_DATABASE=multi_store
@@ -95,7 +95,7 @@ DB_PASSWORD=[YOUR PASSWORD]
 ```
 > Make sure to follow your database username and password
 
-1. Go to `.env` file 
+5. Go to `.env` file 
 - set google drive credentials 
 ```sh 
 GOOGLE_DRIVE_CLIENT_ID =
@@ -108,27 +108,27 @@ GOOGLE_DRIVE_REFRESH_TOKEN =
 
 
 
-1. Install PHP dependencies 
+6. Install PHP dependencies 
 ```sh
 composer update
 ```
 
-1. Generate key 
+7. Generate key 
 ```sh
 php artisan key:generate
 ```
 
-1. install front-end dependencies
+8. install front-end dependencies
 ```sh
 npm install && npm run dev
 ```
 
-1. Run migration
+9. Run migration
 ```
 php artisan migrate
 ```
 
-1. Run seeder
+10. Run seeder
 
 > **Recommended**
 >  mail configuration in .env file before seeding.
@@ -140,16 +140,16 @@ this command will create users (admin and normal user):
 > this link to login admin system http://localhost:8000/admin/login email: admin@gmail.com , password: password
 
 
-1. Run server 
+11. Run server 
 
 ```sh
 php artisan serve
 ```  
 
-1. Visit [localhost:8000](http://localhost:8000) in your favoriite browser.
+12. Visit [localhost:8000](http://localhost:8000) in your favoriite browser.
 
 > Make sure to follow your Laravel local Development Environment.
 
-1. notifications feature configuration (optional)
+13. notifications feature configuration (optional)
 - Go to [pusher](https://pusher.com)
 - Register your account, get API key and paste it into `.env` file.
