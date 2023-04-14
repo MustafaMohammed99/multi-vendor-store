@@ -32,7 +32,7 @@ class Wishlist extends Model
     }
 
     public static function getCookieId()
-    { 
+    {
         $cookie_id = Cookie::get('wishlis_id');
         if (!$cookie_id) {
             $cookie_id = Str::uuid();
@@ -53,6 +53,10 @@ class Wishlist extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 
     public static function rules()
     {

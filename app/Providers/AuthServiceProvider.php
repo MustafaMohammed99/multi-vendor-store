@@ -25,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->app->bind('abilities', function () {
             return include base_path('data/abilities.php');
         });
+
     }
 
     /**
@@ -42,10 +43,10 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        foreach ($this->app->make('abilities') as  $abilitiy => $label) {
-            Gate::define($abilitiy, function ($user) use ($abilitiy) {
-                return $user->hasAbility($abilitiy);
-            });
-        }
+        // foreach ($this->app->make('abilities') as  $abilitiy => $label) {
+        //     Gate::define($abilitiy, function ($user) use ($abilitiy) {
+        //         return $user->hasAbility($abilitiy);
+        //     });
+        // }
     }
 }

@@ -1,10 +1,20 @@
 <!-- Start Single Product -->
+@push('styles')
+    <style>
+        .wishlist.active .lni-heart {
+            color: red;
+        }
+    </style>
+@endpush
 <div class="single-product">
     <div class="product-image">
         <img src="{{ $product->image_url }}" alt="#">
         @if ($product->sale_percent)
             <span class="sale-tag">-{{ $product->sale_percent }}%</span>
         @endif
+
+
+
         @if ($product->new)
             <span class="new-tag">New</span>
         @endif
@@ -12,24 +22,31 @@
             <a href="{{ route('products.show', $product->slug) }}" class="btn"><i class="lni lni-cart"></i> Add to
                 Cart</a>
         </div>
+
+
+
     </div>
     <div class="product-info">
-        <span class="category">{{ $product->category->name ?? '-' }}</span>
+        <span class="category">{{ $product->category->name_translate ?? '-' }}</span>
         <h4 class="title">
-            <a href="{{ route('products.show', $product->slug) }}">{{ $product->name }}</a>
+            <a href="{{ route('products.show', $product->slug) }}">{{ $product->name_translate }}</a>
         </h4>
-        <ul class="review">
+        {{-- <ul class="review">
             @for ($i = 1; $i <= 5; $i++)
                 <li><i class="lni lni-star{{ $i <= $product->rating ? '-filled' : '' }}"></i></li>
             @endfor
             <li><span>{{ $product->rating }} Review(s)</span></li>
-        </ul>
+        </ul> --}}
 
-        <div class="wish-button">
-            <button class="btn lni lni-heart add-wishlist" data-id="{{ $product->id }}">
-                To Wishlist
-            </button>
+
+{{-- --}}
+        <div class="wishlist  {{$product->wishlists->first() != null ? 'active' : '' }} "  >
+            <a  href="javascript:void(0)" data-id="{{ $product->id }}">
+                <i class="lni lni-heart"></i>
+            </a>
         </div>
+
+
 
         <div class="price">
             <span>{{ Currency::format($product->price) }}</span>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -18,23 +19,11 @@ class AdminsController extends Controller
 {
     use PasswordValidationRules;
 
-    // public function __construct()
-    // {
-    //     $this->authorizeResource(Admin::class, 'admin');
-    // }
-    /*
-     <style>
-        body {
-            font-family: 'lateef';
-        }
-    </style>
-    */
+    public function __construct()
+    {
+        $this->authorizeResource(Admin::class, 'admin');
+    }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         // $formatter = new NumberFormatter(config('app.locale'), NumberFormatter::CURRENCY);
@@ -43,69 +32,22 @@ class AdminsController extends Controller
         // dd( $formatter->formatCurrency(1052, 'ILS'));
         // dd( Currency::format(100));
 
-
-        $admins = Admin::paginate();
+        $admins = Admin::paginate(7);
         return view('dashboard.admins.index', compact('admins'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-
-        $admins = Admin::all();
-        $pdf = PDF::loadView(
-            'dashboard.admins.pdf',
-            ['data' => $admins],
-            [],
-            ['orientation' => 'L']
-        );
-        // "'Baloo Bhaijaan 2','sans-serif'"
-
-    //     <table border="1px">
-    //     <caption></caption>
-    //     <tr>
-    //         <th rowspan="2">اسم المحفظ </th>
-    //         <th rowspan="2">اسم المسجد:</th>
-    //         <th rowspan="2">عن شهر: </th>
-    //         <th rowspan="2">بيانات التقرير</th>
-    //     </tr>
-    // </table>
-        $pdf->stream(Auth::user()->name . '.pdf');
-
-        return redirect()
-            ->route('dashboard.admins.index')
-            ->with('success', 'save pdf successfully' . public_path('report-month/') . Auth::user()->name . '.pdf');
-
-
         return view('dashboard.admins.create', [
             'roles' => Role::all(),
             'admin' => new Admin(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // dd($request->roles);
 
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'username' => 'required|string|unique|max:255',
-        //     'phone_number' => 'required|unique|max:10',
-        //     'password' => 'required',
-        //     'roles' => 'required|array',
-        //     'email' => 'required|string|email|unique:users,email',
-        // ]);
-        dd($request->roles);
+    public function store(AdminRequest $request)
+    {
         $data = $request->except('password');
         $data['password'] = Hash::make($request->password);
         $admin = Admin::create($data);
@@ -116,23 +58,13 @@ class AdminsController extends Controller
             ->with('success', 'Admin created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($admin)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Admin $admin)
     {
         $roles = Role::all();
@@ -148,14 +80,13 @@ class AdminsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Admin $admin)
+    public function update(AdminRequest $request, Admin $admin)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'roles' => 'required|array',
-        ]);
-
-        $admin->update($request->all());
+        $data = $request->except('password');
+        if ($request->password !== null) {
+            $data['password'] = Hash::make($request->password);
+        }
+        $admin->update($data);
         $admin->roles()->sync($request->roles);
 
         return redirect()
@@ -169,9 +100,10 @@ class AdminsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Admin $admin)
     {
-        Admin::destroy($id);
+        // Admin::destroy($admin);
+        $admin->delete();
         return redirect()
             ->route('dashboard.admins.index')
             ->with('success', 'Admin deleted successfully');

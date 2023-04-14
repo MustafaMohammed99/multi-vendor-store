@@ -3,16 +3,18 @@
 @section('title', 'Create Admin')
 
 @section('breadcrumb')
-@parent
-<li class="breadcrumb-item active">Admins</li>
+    @parent
+    <li class="breadcrumb-item active">Admins</li>
 @endsection
 
 @section('content')
 
-<form action="{{ route('dashboard.admins.store') }}" method="post" enctype="multipart/form-data">
-    @csrf
+    <form action="{{ route('dashboard.admins.store') }}" method="post" enctype="multipart/form-data">
+        @csrf
 
-    @include('dashboard.admins._form')
-</form>
+        @include('dashboard.admins._form', [
+            'is_required' => true,
+        ])
+    </form>
 
 @endsection

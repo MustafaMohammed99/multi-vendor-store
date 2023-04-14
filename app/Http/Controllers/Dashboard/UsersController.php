@@ -19,7 +19,7 @@ class UsersController extends Controller
     {
         // Gate::authorize('users.view');
 
-        $users = User::paginate();
+        $users = User::paginate(7);
         return view('dashboard.users.index', compact('users'));
     }
 
@@ -31,8 +31,10 @@ class UsersController extends Controller
     public function create()
     {
         return view('dashboard.users.create', [
-            // 'roles' => Role::all(),
+            'roles' => Role::all(),
             'user' => new User(),
+            'user_roles' => [],
+
         ]);
     }
 
@@ -46,7 +48,7 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-         $roles = Role::all();
+        $roles = Role::all();
         $user_roles = $user->roles()->pluck('id')->toArray();
 
         return view('dashboard.users.edit', compact('user', 'roles', 'user_roles'));

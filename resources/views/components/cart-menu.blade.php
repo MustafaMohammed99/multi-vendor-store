@@ -17,8 +17,8 @@
                     <a class="cart-img" href="{{ route('products.show', $item->product->slug) }}">
                         <img src="{{ $item->product->image_url }}" alt="#"></a>
                 </div>
-                <div class="content">
-                    <h4><a href="product-details.html">{{ $item->product->name }}</a></h4>
+                <div class="content">   
+                    <h4><a href="product-details.html">{{ $item->product->name_translate }}</a></h4>
                     <p class="quantity">{{ $item->quantity }}x - <span class="amount">{{ Currency::format($item->product->price) }}</span></p>
                 </div>
             </li>

@@ -1,18 +1,18 @@
-<x-front-layout :title="$product->name">
+<x-front-layout :title="$product->name_translate">
     <x-slot:breadcrumb>
         <div class="breadcrumbs">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="breadcrumbs-content">
-                            <h1 class="page-title">{{ $product->name }}</h1>
+                            <h1 class="page-title">{{ $product->name_translate }}</h1>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <ul class="breadcrumb-nav">
-                            <li><a href="{{ route('home') }}"><i class="lni lni-home"></i> Home</a></li>
-                            <li><a href="{{ route('products.index') }}">Shop</a></li>
-                            <li>{{ $product->name }}</li>
+                            <li><a href="{{ route('home') }}"><i class="lni lni-home"></i> {{ __('Home') }}</a></li>
+                            <li><a href="{{ route('products.index') }}">{{ __('Products') }}</a></li>
+                            <li>{{ $product->name_translate }}</li>
                         </ul>
                     </div>
                 </div>
@@ -48,21 +48,21 @@
                     </div>
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="product-info">
-                            <h2 class="title">{{ $product->name }}</h2>
+                            <h2 class="title">{{ $product->name_translate }}</h2>
                             <p class="category"><i class="lni lni-tag"></i> Drones:<a
-                                    href="javascript:void(0)">{{ $product->category->name ?? '-' }}</a></p>
+                                    href="javascript:void(0)">{{ $product->category->name_translate ?? '-' }}</a></p>
                             <h3 class="price">{{ Currency::format($product->price) }}@if ($product->compare_price)
                                     <span>{{ Currency::format($product->compare_price) }}</span>
                                 @endif
                             </h3>
-                            <p class="info-text">{{ $product->description }}</p>
+                            <p class="info-text">{{ $product->description_translate }}</p>
                             <form action="{{ route('cart.store') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="form-group color-option">
-                                            <label class="title-label" for="size">Choose color</label>
+                                            <label class="title-label" for="size">{{__('Choose color')}}</label>
                                             <div class="single-checkbox checkbox-style-1">
                                                 <input type="checkbox" id="checkbox-1" checked>
                                                 <label for="checkbox-1"><span></span></label>
@@ -81,7 +81,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-12">
+                                    {{-- <div class="col-lg-4 col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="color">Battery capacity</label>
                                             <select class="form-control" id="color">
@@ -90,10 +90,10 @@
                                                 <option>8000 mAh</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="form-group quantity">
-                                            <label for="color">Quantity</label>
+                                            <label for="color">{{__('Quantity')}}</label>
                                             <select class="form-control" name="quantity">
                                                 <option>1</option>
                                                 <option>2</option>
@@ -108,26 +108,33 @@
                                     <div class="row align-items-end">
                                         <div class="col-lg-4 col-md-4 col-12">
                                             <div class="button cart-button">
-                                                <button class="btn" type="submit" style="width: 100%;">Add to
-                                                    Cart</button>
+                                                <button class="btn" type="submit" style="width: 100%;">
+                                                    {{ __('Add to Cart') }}</button>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-12">
+                                        {{-- <div class="col-lg-4 col-md-4 col-12">
                                             <div class="wish-button">
-                                                <button class="btn"><i class="lni lni-reload"></i> Compare</button>
+                                                <button type="button" class="btn"><i class="lni lni-reload"></i>
+                                                    {{__('Compare')}}</button>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-lg-4 col-md-4 col-12">
+                                            {{-- <div class="wishlist  {{$product->wishlists->first() != null ? 'active' : '' }} "  >
+                                                <a  href="javascript:void(0)" data-id="{{ $product->id }}">
+                                                    <i class="lni lni-heart"></i>
+                                                </a>
+                                            </div> --}}
 
-                                            <div class="wish-button">
-                                                <button class="btn lni lni-heart add-wishlist"
+                                            <div class="wishlist wish-button">
+                                                <button type="button" class="btn lni lni-heart"
                                                     data-id="{{ $product->id }}">
-                                                    To Wishlist
+                                                    {{__('To Wishlist')}}
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </form>
 
 
@@ -177,127 +184,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-4 col-12">
-                        <div class="single-block give-review">
-                            <h4>4.5 (Overall)</h4>
-                            <ul>
-                                <li>
-                                    <span>5 stars - 38</span>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                </li>
-                                <li>
-                                    <span>4 stars - 10</span>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star"></i>
-                                </li>
-                                <li>
-                                    <span>3 stars - 3</span>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star"></i>
-                                    <i class="lni lni-star"></i>
-                                </li>
-                                <li>
-                                    <span>2 stars - 1</span>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star"></i>
-                                    <i class="lni lni-star"></i>
-                                    <i class="lni lni-star"></i>
-                                </li>
-                                <li>
-                                    <span>1 star - 0</span>
-                                    <i class="lni lni-star-filled"></i>
-                                    <i class="lni lni-star"></i>
-                                    <i class="lni lni-star"></i>
-                                    <i class="lni lni-star"></i>
-                                    <i class="lni lni-star"></i>
-                                </li>
-                            </ul>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn review-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                                Leave a Review
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-12">
-                        <div class="single-block">
-                            <div class="reviews">
-                                <h4 class="title">Latest Reviews</h4>
-                                <!-- Start Single Review -->
-                                <div class="single-review">
-                                    <img src="https://via.placeholder.com/150x150" alt="#">
-                                    <div class="review-info">
-                                        <h4>Awesome quality for the price
-                                            <span>Jacob Hammond
-                                            </span>
-                                        </h4>
-                                        <ul class="stars">
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                        </ul>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                            tempor...</p>
-                                    </div>
-                                </div>
-                                <!-- End Single Review -->
-                                <!-- Start Single Review -->
-                                <div class="single-review">
-                                    <img src="https://via.placeholder.com/150x150" alt="#">
-                                    <div class="review-info">
-                                        <h4>My husband love his new...
-                                            <span>Alex Jaza
-                                            </span>
-                                        </h4>
-                                        <ul class="stars">
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star"></i></li>
-                                        </ul>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                            tempor...</p>
-                                    </div>
-                                </div>
-                                <!-- End Single Review -->
-                                <!-- Start Single Review -->
-                                <div class="single-review">
-                                    <img src="https://via.placeholder.com/150x150" alt="#">
-                                    <div class="review-info">
-                                        <h4>I love the built quality...
-                                            <span>Jacob Hammond
-                                            </span>
-                                        </h4>
-                                        <ul class="stars">
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                            <li><i class="lni lni-star-filled"></i></li>
-                                        </ul>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                            tempor...</p>
-                                    </div>
-                                </div>
-                                <!-- End Single Review -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -361,11 +248,11 @@
     <!-- End Review Modal -->
 
     @push('scripts')
-        <script>
+        {{-- <script>
             const csrf_token = "{{ csrf_token() }}";
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="{{ asset('js/wishlist.js') }}"></script>
+        <script src="{{ asset('js/wishlist.js') }}"></script> --}}
 
         <script type="text/javascript">
             const current = document.getElementById("current");

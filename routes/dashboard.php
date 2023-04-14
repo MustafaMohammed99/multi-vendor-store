@@ -57,9 +57,9 @@ Route::group([
         ->name('products.force-delete');
 
 
-    Route::get('products/import', [ImportProductsController::class, 'create'])
-        ->name('products.import');
-    Route::post('products/import', [ImportProductsController::class, 'store']);
+    // Route::get('products/import', [ImportProductsController::class, 'create'])
+    //     ->name('products.import');
+    // Route::post('products/import', [ImportProductsController::class, 'store']);
 
     Route::resources([
         'products' => ProductsController::class,

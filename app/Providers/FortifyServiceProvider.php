@@ -14,6 +14,9 @@ use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Config;
 use Laravel\Fortify\Contracts\LoginResponse;
 
+use Illuminate\Support\Facades\App;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
@@ -25,15 +28,19 @@ class FortifyServiceProvider extends ServiceProvider
 
     {
         $request = request();
-        if ($request->is('admin/*')) {
+
+        if ($request->is("admin/*")) {
+            // dd('true');
             Config::set('fortify.guard', 'admin');
             Config::set('fortify.passwords', 'admins');
-            Config::set('fortify.prefix', 'admin');
-            //Config::set('fortify.home', 'admin/dashboard');
-        }
-
-        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
-            public function toResponse($request) {
+            Config::set('fortify.prefix',  'admin');
+            // Config::set('fortify.home', 'admin/dashboard');
+        } 
+       
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse
+        {
+            public function toResponse($request)
+            {
                 if ($request->user('admin')) {
                     return redirect()->intended('admin/dashboard/categories');
                 }
@@ -64,7 +71,7 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-                Fortify::viewPrefix('auth.');
+        Fortify::viewPrefix('auth.');
 
         // Fortify::loginView(function() {
         //     if (Config::get('fortify.guard') !== null) {

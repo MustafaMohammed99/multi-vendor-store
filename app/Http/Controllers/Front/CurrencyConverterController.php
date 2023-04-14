@@ -29,13 +29,11 @@ class CurrencyConverterController extends Controller
             $converter = app('currency.converter'); // بيروح يجيبها من السيرفس البروفايدر
             $rate = $converter->convert($baseCurrencyCode, $currencyCode);
 
-            Cache::put($cacheKey, $rate, now()->addMinutes(60));
+            Cache::put($cacheKey, $rate, now()->addDay(1));
         }
 
         Session::put('currency_code', $currencyCode);
-
         return redirect()->back();
-
     }
 
 }

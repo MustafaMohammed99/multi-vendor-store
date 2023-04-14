@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Gate;
 class RolesController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->authorizeResource(Role::class, 'role');
-    // }
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class, 'role');
+    }
 
     /**
      * Display a listing of the resource.
@@ -23,9 +23,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        Gate::authorize('roles.view');
-
-        $roles = Role::paginate();
+        $roles = Role::paginate(7);
         return view('dashboard.roles.index', compact('roles'));
     }
 
@@ -36,9 +34,6 @@ class RolesController extends Controller
      */
     public function create()
     {
-        if (Gate::denies('roles.create')) {
-            abort(403);
-        }
         return view('dashboard.roles.create', [
             'role' => new Role(),
         ]);
@@ -52,8 +47,6 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('roles.create');
-
         $request->validate([
             'name' => 'required|string|max:255',
             'abilities' => 'required|array',
@@ -72,7 +65,7 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($role)
     {
         //
     }
@@ -85,7 +78,6 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
-        Gate::authorize('roles.update');
         $role_abilities = $role->abilities()->pluck('type', 'ability')->toArray();
         return view('dashboard.roles.edit', compact('role', 'role_abilities'));
     }
@@ -99,7 +91,6 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        Gate::authorize('roles.update');
         $request->validate([
             'name' => 'required|string|max:255',
             'abilities' => 'required|array',
@@ -115,13 +106,12 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  role
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        Gate::authorize('roles.delete');
-        Role::destroy($id);
+        $role->delete();
         return redirect()
             ->route('dashboard.roles.index')
             ->with('success', 'Role deleted successfully');

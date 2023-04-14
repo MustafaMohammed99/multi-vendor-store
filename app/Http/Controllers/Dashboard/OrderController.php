@@ -13,7 +13,7 @@ class OrderController extends Controller
         $request = request();
         $orders = Order::with('user:id,name', 'store:id,name')->withCount('items')
             ->filter($request->query())
-            ->paginate();
+            ->paginate(7);
 
         return view('dashboard.orders.index', compact('orders'));
     }

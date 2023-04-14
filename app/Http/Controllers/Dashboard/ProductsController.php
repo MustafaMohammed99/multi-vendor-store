@@ -12,12 +12,15 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Concerns\UploadImages;
+use App\Concerns\HandleTempImage;
+
 use App\Models\ProductImages;
 use App\Models\TemporaryFile;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
-    use UploadImages;
+    use UploadImages, HandleTempImage;
     public function index()
     {
         // $this->authorize('view-any', Product::class);
@@ -25,7 +28,7 @@ class ProductsController extends Controller
         $products = Product::with(['category', 'store'])
             ->filterBack($request->query())
             ->orderBy('products.name')
-            ->paginate();
+            ->paginate(7);
 
         return view('dashboard.products.index', compact('products'));
     }
@@ -45,15 +48,13 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-
-        dd($request->all());
         // Gate::authorize('categories.create');
         $request->validate(Product::rules());
         $data = $request->except('tags', 'price', 'image');
 
-        $image = $this->handleImageFilepond($request); // return json (path , url)
+
+        $data['image'] = $this->handleImageFilepond($request->image); // return json (path , url)
         $data['price'] = round($request->price);
-        $data['image'] = $image;
         $data['store_id'] = Auth::user()->store_id;
 
         $product = Product::create($data);
@@ -75,10 +76,9 @@ class ProductsController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('update', $product);
+        $product = Product::with('tags', 'images')->findOrFail($id);
+        $product_images = $product->images->pluck('image_url', 'image_path')->toArray();
 
-        $product = Product::with('images')->findOrFail($id);
-        $product_images = $product->images->pluck('image')->toArray();
         $categories = Category::all();
         $categories = $categories->pluck('name', 'id');
         $tags = implode(',', $product->tags()->pluck('name')->toArray());
@@ -91,27 +91,20 @@ class ProductsController extends Controller
     {
         // $this->authorize('update', $product);
 
-        $old_image = $product->image;
         $data = $request->except('image', 'tags');
-        $data['store_id'] = 6;
+        $image = $this->handleImageFilepond($request->image); // return json (path , url)
 
-        $new_image = $this->uploadImageGoogle($request, 'image', 'products');
-        if ($new_image) {
-            $data['image'] = $new_image;
-        }
+        if ($image != null)
+            $data['image'] = $image;
 
-        $this->addImages($request, $product);
-
+        $data['store_id'] = Auth::user()->store_id;
         $product->update($data);
+
         $this->addTags($request, $product);
-
-
-        if ($old_image && $new_image) {
-            Storage::disk('public')->delete($old_image);
-        }
+        $this->addProductImages($request->product_images, $product);
 
         return redirect()->route('dashboard.products.index')
-            ->with('success', 'Product updated');
+            ->with('success', 'Product updated' . $product->name);
     }
 
 
@@ -135,52 +128,10 @@ class ProductsController extends Controller
         $product->tags()->sync($tag_ids);
     }
 
-    public function handleImageFilepond($request)
-    {
-        // $request->post('image')  return json  contain (path , url) comming from filepond
-        $temp_image_json_decode = json_decode($request->post('image'));
-        // move image from temp to origin folder and delete temp
-        $new_path =   'products/' . now()->timestamp . '_' . basename($temp_image_json_decode->path);
-        Storage::disk('google')->move(
-            $temp_image_json_decode->path,
-            $new_path
-        );
-
-        Storage::disk('google')->delete($temp_image_json_decode->path);
-        TemporaryFile::where('path', $temp_image_json_decode->path)->delete();
-
-        return json_encode([
-            'path' => $new_path,
-            'url' => Storage::disk('google')->url($new_path)
-        ]);
-    }
 
 
-    public function addProductImages($product_images, $product)
-    {
-        // $product_images array of json  contain object (path , url) comming from filepond
-        if ($product_images) {
-            foreach ($product_images as  $product_image) {
-                $temp_image = json_decode($product_image);
-                $new_path =    'product_images/' . now()->timestamp . '_' . basename($temp_image[0]->path);
 
-                Storage::disk('google')->move(
-                    $temp_image[0]->path,
-                    $new_path
-                );
-                Storage::disk('google')->delete($temp_image[0]->path);
-                TemporaryFile::where('path', $temp_image[0]->path)->delete();
 
-                ProductImages::create([
-                    'product_id' => $product->id,
-                    'image' => [
-                        'path' => $new_path,
-                        'url' => Storage::disk('google')->url($new_path)
-                    ]
-                ]);
-            }
-        }
-    }
 
     public function destroy(Product $product)
     {

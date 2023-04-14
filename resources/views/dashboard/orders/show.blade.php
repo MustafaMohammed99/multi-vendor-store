@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
-@section('title', 'order items')
+@section('title', __('Order Items'))
 
 @section('breadcrumb')
     @parent
     <li class="breadcrumb-item active">
-        <a  href="{{ route('dashboard.orders.index') }}">Orders</a>
+        <a  href="{{ route('dashboard.orders.index') }}">{{ __('Orders') }}</a>
     </li>
-    <li class="breadcrumb-item active">Order Items</li>
+    <li class="breadcrumb-item active">{{ __('Order Items') }}</li>
 
 @endsection
 
@@ -17,11 +17,11 @@
         <thead>
             <tr>
                 <th></th>
-                <th>Proudct</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
+                <th>{{ __('Product') }}</th>
+                <th>{{ __('Category') }}</th>
+                <th>{{ __('Price') }}</th>
+                <th>{{ __('Quantity') }}</th>
+                <th>{{ __('Total') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">No products defined.</td>
+                    <td colspan="5">{{ __('No products defined.') }}</td>
                 </tr>
             @endforelse
         </tbody>

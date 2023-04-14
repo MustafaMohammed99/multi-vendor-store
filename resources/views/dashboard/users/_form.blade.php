@@ -1,8 +1,8 @@
 <div class="form-group">
-    <x-form.input label="Name" class="form-control-lg" name="name" :value="$user->name" />
+    <x-form.input label="{{ __('Name') }}" class="form-control-lg" name="name" :value="$user->name" />
 </div>
 <div class="form-group">
-    <x-form.input label="Email" type="email" name="email" :value="$user->email" />
+    <x-form.input label="{{ __('Email') }}" type="email" name="email" :value="$user->email" />
 </div>
 
 
@@ -14,7 +14,7 @@
             <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $role->id }}"
                 @checked(in_array($role->id, old('roles', $user_roles)))>
             <label class="form-check-label">
-                {{ $role->name  }}
+                {{ $role->name }}
             </label>
         </div>
     @endforeach

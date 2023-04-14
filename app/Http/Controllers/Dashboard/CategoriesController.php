@@ -14,19 +14,15 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
+use App\Concerns\HandleTempImage;
 use App\Concerns\UploadImages;
+use App\Models\TemporaryFile;
 
 class CategoriesController extends Controller
 {
-    use UploadImages;
-
+    use UploadImages, HandleTempImage;
     public function index()
     {
-        // if (!Gate::allows('categories.view')) {
-        //     abort(403);
-        // }
-
         $request = request();
         $categories = Category::with('parent')->withCount([
             'products' => function ($query) {
@@ -35,8 +31,9 @@ class CategoriesController extends Controller
         ])
             ->filter($request->query())
             ->orderBy('categories.name')
-            ->paginate();
+            ->paginate(7);
 
+        // dd($categories->first()->image_url);
         return view('dashboard.categories.index', compact('categories'));
     }
 
@@ -52,14 +49,11 @@ class CategoriesController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        // Gate::authorize('categories.create');
-
-        $request->validate(Category::rules());
-
         $data = $request->except('image');
-        $data['image'] = $this->uploadImageGoogle($request,  'image', 'categories');
+        $data['image'] = $this->handleImageFilepond($request->image); // return json (path , url)
+
         Category::create($data);
 
         return Redirect::route('dashboard.categories.index')
@@ -105,26 +99,21 @@ class CategoriesController extends Controller
     }
 
 
-    public function update(CategoryRequest $request, $id)
+    public function update(CategoryRequest $request,  Category $category)
     {
-        $request->validate(Category::rules($id));
-
-        $category = Category::findOrFail($id);
-        $old_image = $category->image;
-
         $data = $request->except('image');
-        $new_image = $this->uploadImageGoogle($request, 'image', 'categories');
-        if ($new_image) {
-            $data['image'] = $new_image;
-        }
+        $image = $this->handleImageFilepond($request->image); // return json (path , url)
+
+        if ($image != null)
+            $data['image'] = $image;
+
         $category->update($data);
-        if ($old_image && $new_image) {
-            Storage::disk('uploads')->delete($old_image);
-        }
 
         return Redirect::route('dashboard.categories.index')
             ->with('success', 'Category updated!');
     }
+
+
 
 
     public function destroy(Category $category)

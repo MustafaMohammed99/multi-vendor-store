@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class Category extends Model
 {
@@ -18,13 +19,18 @@ class Category extends Model
         'name', 'parent_id', 'description', 'image', 'status', 'slug'
     ];
 
-    protected $appends = [
-        'image_url',
-    ];
-
     protected $casts = [
         'image' => 'json',
     ];
+
+    protected $appends = [
+        'image_url',
+        'image_path',
+        'name_translate',
+        'description_translate',
+
+    ];
+
 
     protected static function booted()
     {
@@ -68,36 +74,48 @@ class Category extends Model
     }
 
 
-    // Accessors image_url
+    // Accessors image_url NameTranslate ImageUrl
     public function getImageUrlAttribute()
     {
-        if (!$this->image) {
-            return 'https://www.incathlab.com/images/products/default_product.png';
+        // return($this->image);
+        $google_image = json_decode($this->image);
+        // $google_image = is_string($this->image) ? json_decode($this->image) : $this->image;
+
+        if ($google_image !== null && isset($google_image->url)) {
+            return $google_image->url;
         }
-        if (Str::startsWith($this->image, ['http://', 'https://'])) {
-            return $this->image;
-        }
-        return asset('uploads/' . $this->image);
+        return 'https://www.incathlab.com/images/products/default_product.png';
     }
 
-    public static function rules($id = 0)
+    public function getImagePathAttribute()
     {
-        return [
-            'name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:255',
-                // "unique:categories,name,$id",
-                Rule::unique('categories', 'name')->ignore($id),
-            ],
-            'parent_id' => [
-                'nullable', 'int', 'exists:categories,id'
-            ],
-            'image' => [
-                'image', 'max:1048576', 'dimensions:min_width=100,min_height=100',
-            ],
-            'status' => 'required|in:active,archived',
-        ];
+        $google_image = json_decode($this->image);
+        if ($google_image !== null && isset($google_image->path)) {
+            return $google_image->path;
+        }
+        return null;
     }
+
+
+    public function getNameTranslateAttribute()
+    {
+        if (app()->getLocale() == 'ar') {
+            $translate = new GoogleTranslate();
+            return  $translate->setSource('en')->setTarget('ar')->translate($this->name);
+        }
+
+        return $this->name;
+    }
+
+    public function getDescriptionTranslateAttribute()
+    {
+        if (app()->getLocale() == 'ar') {
+            $translate = new GoogleTranslate();
+            return  $translate->setSource('en')->setTarget('ar')->translate($this->name);
+        }
+
+        return $this->description;
+    }
+
+
 }

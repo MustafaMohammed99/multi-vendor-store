@@ -23,6 +23,7 @@ class ProductImages extends Model
 
     protected $appends = [
         'image_url',
+        'image_path',
     ];
 
     public function product()
@@ -31,14 +32,25 @@ class ProductImages extends Model
     }
 
 
-    public function getImageUrlAttribute()
-    {
-        if (!$this->image) {
-            return 'https://www.incathlab.com/images/products/default_product.png';
-        }
-        if (Str::startsWith($this->image, ['http://', 'https://'])) {
-            return $this->image;
-        }
-        return asset('uploads/' . $this->image);
-    }
+      // $product->image_url
+      public function getImageUrlAttribute()
+      {
+          $google_image = json_decode($this->image);
+          if ($google_image !== null && isset($google_image->url)) {
+              return $google_image->url;
+          }
+          return 'https://www.incathlab.com/images/products/default_product.png';
+      }
+
+
+      public function getImagePathAttribute()
+      {
+          $google_image = json_decode($this->image);
+          if ($google_image !== null && isset($google_image->path)) {
+              return $google_image->path;
+          }
+          return null;
+      }
+
+
 }

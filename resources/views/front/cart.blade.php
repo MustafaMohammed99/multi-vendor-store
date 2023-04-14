@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-lg-3 col-md-2 col-12">
                                 <h5 class="product-name"><a href="{{ route('products.show', $item->product->slug) }}">
-                                        {{ $item->product->name }}</a></h5>
+                                        {{ $item->product->name_translate }}</a></h5>
                                 <p class="product-des">
                                     <span><em>Type:</em> Mirrorless</span>
                                     <span><em>Color:</em> Black</span>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Front;
+
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\StoreWishlistRequest;
@@ -33,20 +34,22 @@ class WishlistController extends Controller
         $product = Product::findOrFail($request->post('product_id'));
         $item =  Wishlist::where('product_id', '=', $product->id)->first();
 
+        $status = '';
         if (!$item) {
             $wishlist = Wishlist::create([
                 'user_id' => Auth::id(),
                 'product_id' => $product->id,
             ]);
-            return $wishlist;
+            $status = 'added';
         } else {
             $item->delete();
+            $status = 'removed';
         }
 
         if ($request->expectsJson()) {
 
             return response()->json([
-                'message' => 'Item added to Wishlist!',
+                'status' => $status,
             ], 201);
         }
 

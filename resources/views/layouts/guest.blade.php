@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
     <!-- Scripts -->
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    <link rel="stylesheet" type="text/css"
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- <link rel="stylesheet" type="text/css"
           href="{{asset('css/css/app.css')}}">
-    <script src="{{ asset('js/js/app.js') }}"></script>
+    <script src="{{ asset('js/js/app.js') }}"></script> --}}
 
 </head>
 

@@ -19,7 +19,7 @@ class Nav extends Component
      */
     public function __construct($context = 'side')
     {
-        $this->items = $this->prepareItems(config('nav'));
+        $this->items = $this->prepareItems(app('nav_dashboard'));
 
         $this->active = Route::currentRouteName();
     }
@@ -38,9 +38,9 @@ class Nav extends Component
     {
         // $user = Auth::user();
         // foreach ($items as $key => $item) {
-            // if (isset($item['ability']) && !$user->can($item['ability'])) {
-                // unset($items[$key]);
-            // }
+        // if (isset($item['ability']) && !$user->can($item['ability'])) {
+        // unset($items[$key]);
+        // }
         // }
         return $items;
     }

@@ -5,6 +5,7 @@ namespace App\Concerns;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 trait UploadImages
 {
@@ -56,9 +57,6 @@ trait UploadImages
         return $images_product;
     }
 
-
-
-
     public function uploadImageGoogle($request, $name_image_inForm, $folder_place = 'other')
     {
         if (!$request->hasFile($name_image_inForm)) {
@@ -66,7 +64,8 @@ trait UploadImages
         }
         $file = $request->file($name_image_inForm);
         if ($file->isValid()) {
-            $path = $file->store($folder_place, [
+            $customFileName = 'temp_' . time() . '_' . Str::random(16) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs($folder_place,  $customFileName, [
                 'disk' => 'google',
             ]);
         }
@@ -90,10 +89,10 @@ trait UploadImages
         $images_product = [];
         foreach ($files as $file) {
             if ($file->isValid()) {
-                $path = $file->store($folder_place, [
+                $customFileName = 'temp_' . time() . '_' . Str::random(16) . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs($folder_place,  $customFileName, [
                     'disk' => 'google',
                 ]);
-
                 if ($path) {
                     $url = Storage::disk('google')->url($path);
                     $images_product[] =

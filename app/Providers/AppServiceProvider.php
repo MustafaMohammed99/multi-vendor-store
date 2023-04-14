@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
         $this->app->bind('currency.converter', function () {
             return new CurrencyConverter(config('services.currency_converter.api_key'));
         });
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind('stripe.client', function () {
             return new \Stripe\StripeClient(config('services.stripe.secret_key'));
+        });
+
+        $this->app->bind('nav_dashboard', function () {
+            return include base_path('data/nav_dashboard.php');
         });
     }
 
@@ -34,6 +39,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
-        
     }
 }

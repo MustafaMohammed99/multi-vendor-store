@@ -29,7 +29,9 @@ class Store extends Model
 
     protected $appends = [
         'logo_image_url',
+        'logo_image_path',
         'cover_image_url',
+        'cover_image_path',
     ];
 
     protected $hidden = [
@@ -71,45 +73,45 @@ class Store extends Model
         });
     }
 
+    // Accessors image_url
     public function getLogoImageUrlAttribute()
     {
-        if (!$this->logo_image) {
-            return 'https://www.incathlab.com/images/products/default_product.png';
+        // $google_image = is_string($this->image) ? json_decode($this->image) : $this->image;
+
+        $google_image = json_decode($this->logo_image);
+        if ($google_image !== null && isset($google_image->url)) {
+            return $google_image->url;
         }
-        if (Str::startsWith($this->logo_image, ['http://', 'https://'])) {
-            return $this->logo_image;
-        }
-        return asset('uploads/' . $this->logo_image);
+        return 'https://www.incathlab.com/images/products/default_product.png';
     }
 
+    public function getLogoImagePathAttribute()
+    {
+        $google_image = json_decode($this->logo_image);
+        if ($google_image !== null && isset($google_image->path)) {
+            return $google_image->path;
+        }
+        return null;
+    }
+
+    // Accessors cover_image_url
     public function getCoverImageUrlAttribute()
     {
-        if (!$this->cover_image) {
-            return 'https://www.incathlab.com/images/products/default_product.png';
+        // $google_image = is_string($this->image) ? json_decode($this->image) : $this->image;
+
+        $google_image = json_decode($this->cover_image);
+        if ($google_image !== null && isset($google_image->url)) {
+            return $google_image->url;
         }
-        if (Str::startsWith($this->cover_image, ['http://', 'https://'])) {
-            return $this->cover_image;
-        }
-        return asset('uploads/' . $this->cover_image);
+        return 'https://www.incathlab.com/images/products/default_product.png';
     }
 
-    public static function rules($id = 0)
+    public function getCoverImagePathAttribute()
     {
-        return [
-            'name' => [
-                'required', 'string', 'min:3', 'max:255',
-                Rule::unique('stores', 'name')->ignore($id),
-            ],
-            'description' => [
-                'nullable', 'string', 'min:3',
-            ],
-            'logo_image' => [
-                'nullable', 'image', 'max:1048576', 'dimensions:min_width=100,min_height=100',
-            ],
-            'cover_image' => [
-                'nullable', 'image', 'max:1048576', 'dimensions:min_width=100,min_height=100',
-            ],
-            'status' => 'required|in:active,inactive',
-        ];
+        $google_image = json_decode($this->cover_image);
+        if ($google_image !== null && isset($google_image->path)) {
+            return $google_image->path;
+        }
+        return null;
     }
 }

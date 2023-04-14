@@ -1,6 +1,5 @@
-
 <div class="form-group">
-    <x-form.input label="Role Name" class="form-control-lg" role="input" name="name" :value="$role->name" />
+    <x-form.input label="{{ __('Role Name') }}" class="form-control-lg" role="input" name="name" :value="$role->name" />
 </div>
 
 <fieldset>
@@ -9,24 +8,24 @@
     @foreach (app('abilities') as $ability_code => $ability_name)
     <div class="row mb-2">
         <div class="col-md-6">
-            {{ is_callable($ability_name)? $ability_name() : $ability_name }}
+            {{ is_callable($ability_name)? $ability_name() : __($ability_name) }}
         </div>
         <div class="col-md-2">
             <input type="radio" name="abilities[{{ $ability_code }}]" value="allow" @checked(($role_abilities[$ability_code] ?? '') == 'allow')>
-            Allow
+            {{ __('Allow') }}
         </div>
         <div class="col-md-2">
             <input type="radio" name="abilities[{{ $ability_code }}]" value="deny" @checked(($role_abilities[$ability_code] ?? '') == 'deny')>
-            Deny
+            {{ __('Deny') }}
         </div>
         <div class="col-md-2">
             <input type="radio" name="abilities[{{ $ability_code }}]" value="inherit" @checked(($role_abilities[$ability_code] ?? '') == 'inherit')>
-            Inherit
+            {{ __('Inherit') }}
         </div>
     </div>
     @endforeach
 </fieldset>
 
 <div class="form-group">
-    <button type="submit" class="btn btn-primary">{{ $button_label ?? 'Save' }}</button>
-</div>
+    <button type="submit" id="btn-save" class="btn btn-primary">{{ $button_label ?? __('Save') }}</button>
+</div>  

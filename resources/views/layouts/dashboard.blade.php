@@ -3,7 +3,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}">
 
 <head>
     <meta charset="utf-8">
@@ -17,14 +17,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+    {{-- <link rel="stylesheet"
+    href="{{ asset('plugins/fontawesome-free/css/' . LaravelLocalization::getCurrentLocaleDirection() . '/all.min.css') }}" /> --}}
+
+
     <!-- Theme style -->
+    <link rel="stylesheet"
+        href="{{ asset('dist/css/' . LaravelLocalization::getCurrentLocaleDirection() . '/adminlte.min.css') }}" />
 
 
-    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+
     <link href="https://unpkg.com/filepond@latest/dist/filepond.min.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
         rel="stylesheet" />
-
+    <link href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css" rel="stylesheet" />
 
     @stack('styles')
 </head>
@@ -41,10 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="{{ route('home') }}" class="nav-link">{{ __('Home') }}</a>
                 </li>
             </ul>
 
@@ -73,68 +76,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </li>
 
-                <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="dist/img/user1-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Brad Diesel
-                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="dist/img/user8-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        John Pierce
-                                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">I got your message bro</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="dist/img/user3-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Nora Silvester
-                                        <span class="float-right text-sm text-warning"><i
-                                                class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">The subject goes here</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                    </div>
-                </li>
+
                 <!-- Notifications Dropdown Menu -->
                 <x-dashboard.notifications-menu count="2" />
 
@@ -143,9 +85,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"
-                        role="button">
+                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                         <i class="fas fa-th-large"></i>
                     </a>
                 </li>
@@ -166,6 +108,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
 
+
+                                            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <select onchange="window.location.href=this.value">
+                            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                <option
+                                    value="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
+                                    {{ app()->getLocale() === $localeCode ? 'selected' : '' }}>
+                                    {{ $properties['native'] }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                                            </div>
+
                 @auth
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
@@ -176,7 +132,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="{{ route('dashboard.profile.edit') }}" class="d-block">{{ Auth::user()->name }}</a>
                             <form action="{{ route('logout') }}" method="post">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-outline-primary">Logout</button>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">{{ __('Logout') }}</button>
                             </form>
 
                         </div>
@@ -186,7 +142,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- SidebarSearch Form -->
                 <div class="form-inline">
                     <div class="input-group" data-widget="sidebar-search">
-                        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                        <input class="form-control form-control-sidebar" type="search" placeholder="{{__('Search')}}"
                             aria-label="Search">
                         <div class="input-group-append">
                             <button class="btn btn-sidebar">
@@ -213,7 +169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 @section('breadcrumb')
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="#">{{ __('Home') }}</a></li>
                                 @show
                             </ol>
                         </div><!-- /.col -->
@@ -267,16 +223,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <script>
         const userId = "{{ Auth::id() }}";
+        const csrf_token = "{{ csrf_token() }}";
     </script>
 
     {{-- <script src="{{ asset('js/pusher.js') }}"></script> --}}
     {{-- @vite('resources/js/app.js') --}}
 
-
+    {{-- <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script> --}}
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-    {{-- <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script> --}}
-    {{-- <script src="https://unpkg.com/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.js"> --}}
-    </script>
+    <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
+
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+
     <script src="https://unpkg.com/filepond@latest/dist/filepond.min.js"></script>
 
 

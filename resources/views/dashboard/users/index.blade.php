@@ -1,16 +1,16 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Users')
+@section('title', __('Users'))
 
 @section('breadcrumb')
     @parent
-    <li class="breadcrumb-item active">Users</li>
+    <li class="breadcrumb-item active">{{ __('Users') }}</li>
 @endsection
 
 @section('content')
 
 <div class="mb-5">
-    <a href="{{ route('dashboard.users.create') }}" class="btn btn-sm btn-outline-primary mr-2">Create</a>
+    <a href="{{ route('dashboard.users.create') }}" class="btn btn-sm btn-outline-primary mr-2">{{ __('Create') }}</a>
 </div>
 
 <x-alert type="success" />
@@ -19,11 +19,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Roles</th>
-            <th>Created At</th>
+            <th>{{ __('ID') }}</th>
+            <th>{{ __('Name') }}</th>
+            <th>{{ __('Email') }}</th>
+            <th>{{ __('Roles') }}</th>
+            <th>{{ __('Created At') }}</th>
             <th colspan="2"></th>
         </tr>
     </thead>
@@ -37,7 +37,7 @@
             <td>{{ $user->created_at }}</td>
             <td>
                 @can('users.update')
-                <a href="{{ route('dashboard.users.edit', $user->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                <a href="{{ route('dashboard.users.edit', $user->id) }}" class="btn btn-sm btn-outline-success">{{ __('Edit') }}</a>
                 @endcan
             </td>
             <td>
@@ -47,14 +47,14 @@
                     <!-- Form Method Spoofing -->
                     <input type="hidden" name="_method" value="delete">
                     @method('delete')
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger">{{ __('Delete') }}</button>
                 </form>
                 @endcan
             </td>
         </tr>
         @empty
         <tr>
-            <td colspan="6">No users defined.</td>
+            <td colspan="6">{{ __('No users defined.') }}</td>
         </tr>
         @endforelse
     </tbody>

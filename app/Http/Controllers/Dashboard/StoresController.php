@@ -14,10 +14,18 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
+use App\Concerns\HandleTempImage;
+use App\Http\Requests\StoreRequest;
 
 class StoresController extends Controller
 {
-    use UploadImages;
+    use UploadImages, HandleTempImage;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Admin::class, 'store');
+    }
+
 
     public function index()
     {
@@ -38,9 +46,6 @@ class StoresController extends Controller
 
     public function create()
     {
-        // if (Gate::denies('categories.create')) {
-        // abort(403);
-        // }
         $store = new Store();
         $user = new User();
         $showPassword = true;
@@ -48,19 +53,18 @@ class StoresController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        // Gate::authorize('categories.create');
-        $request->validate(Store::rules());
-        $request->merge(['user_type'=>'super-admin']);
+        $request->merge(['user_type' => 'super-admin']);
         $request->validate(User::rules());
 
         DB::beginTransaction();
         try {
 
             $data = $request->except('logo_image', 'cover_image');
-            $data['logo_image'] = $this->uploadImageGoogle($request, 'logo_image', 'stores');
-            $data['cover_image'] = $this->uploadImageGoogle($request, 'cover_image', 'stores');
+            $data['logo_image']  = $this->handleImageFilepond($request->logo_image); // return json (path , url)
+            $data['cover_image']  = $this->handleImageFilepond($request->cover_image); // return json (path , url)
+
             Store::create($data);
 
             User::create([
@@ -94,9 +98,6 @@ class StoresController extends Controller
 
     public function show(Store $store)
     {
-        // if (Gate::denies('categories.view')) {
-        // abort(403);
-        // }
         $products = Product::where('store_id', '=', $store->id)
             ->with('category')
             ->latest()->paginate();
