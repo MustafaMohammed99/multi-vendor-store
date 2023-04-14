@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Gate;
 
 class UsersController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -71,9 +78,9 @@ class UsersController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy($user)
     {
-        User::destroy($id);
+        User::destroy($user);
         return redirect()
             ->route('dashboard.users.index')
             ->with('success', 'User deleted successfully');

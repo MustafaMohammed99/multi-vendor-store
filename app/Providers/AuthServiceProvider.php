@@ -43,10 +43,10 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        // foreach ($this->app->make('abilities') as  $abilitiy => $label) {
-        //     Gate::define($abilitiy, function ($user) use ($abilitiy) {
-        //         return $user->hasAbility($abilitiy);
-        //     });
-        // }
+        foreach ($this->app->make('abilities') as  $abilitiy => $label) {
+            Gate::define($abilitiy, function ($user) use ($abilitiy) {
+                return $user->hasAbility($abilitiy);
+            });
+        }
     }
 }

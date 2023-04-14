@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Throwable;
 use App\Concerns\HandleTempImage;
 use App\Http\Requests\StoreRequest;
+use Illuminate\Support\Facades\Hash;
 
 class StoresController extends Controller
 {
@@ -62,6 +63,7 @@ class StoresController extends Controller
         try {
 
             $data = $request->except('logo_image', 'cover_image');
+
             $data['logo_image']  = $this->handleImageFilepond($request->logo_image); // return json (path , url)
             $data['cover_image']  = $this->handleImageFilepond($request->cover_image); // return json (path , url)
 
@@ -72,7 +74,7 @@ class StoresController extends Controller
                 'phone_number' => $request->user_phone_number,
                 'email' => $request->user_email,
                 'type' => 'super-admin',
-                'password' => $request->user_password,
+                'password' => Hash::make('password'),
             ]);
             DB::commit();
         } catch (Throwable $e) {

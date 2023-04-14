@@ -65,15 +65,16 @@ class DatabaseSeeder extends Seeder
         Store::factory(5)->create();
         // User::factory(2)->create();
 
-        User::create([
-            'name'                  => 'user',
-            'email'                 => 'user@gmail.com',
-            'email_verified_at'     => now(),
-            'password'              => Hash::make('password'),
-            'remember_token'        => Str::random(10),
-            'store_id' => 1,
+        // User::create([
+        //     'name'                  => 'user',
+        //     'email'                 => 'user@gmail.com',
+        //     'email_verified_at'     => now(),
+        //     'password'              => Hash::make('password'),
+        //     'remember_token'        => Str::random(10),
+        //     'store_id' => 1,
+        //     'type' => 'super-admin'
 
-        ]);
+        // ]);
         Category::factory(5)->create();
         Product::factory(10)->create();
     }
