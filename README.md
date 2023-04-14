@@ -20,11 +20,10 @@ By using filepond to upload files, you can improve the user experience by allowi
 <a name="screenshots"></a>
 ## 📸 Screenshots
 
-
 ||||
 |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
-|![Imgur](screanshots/front/en/front_index.png) | ![Imgur](screanshots/front/en/front_show.png) |![Imgur](screanshots/front/en/front_search.png) |
-|![Imgur](screanshots/front/ar/ar_front_index.png) |![Imgur](screanshots/front/ar/ar_front_show.png) | ![Imgur](screanshots/front/ar/ar_front_search.png) |
+| ![Imgur](screanshots/front/en/front_index.png) | ![Imgur](screanshots/front/en/front_show.png) | ![Imgur](screanshots/front/en/front_search.png) |
+| ![Imgur](screanshots/front/ar/ar_front_index.png) | ![Imgur](screanshots/front/ar/ar_front_show.png) | ![Imgur](screanshots/front/ar/ar_front_search.png) |
 
 
 <a name="requirements"></a>
