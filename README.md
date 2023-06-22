@@ -5,7 +5,7 @@
 By using Google Drive to store your files, you can reduce the amount of time it takes to load files on your website, as the files are being               served from Google's servers instead of your own.
 * Upload files by  package filepond
 By using filepond to upload files, you can improve the user experience by allowing users to upload files seamlessly (upload asynchronous).
-* support multi language, rtl and ltr  by package mcamara
+* support multi languages, rtl and ltr  by package mcamara and Astrotomic/laravel-translatable
 * Payment by package stripe .
 
 
