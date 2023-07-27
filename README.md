@@ -2,10 +2,10 @@
 
 ## The Uses
 * Storage files on googel drive 
-By using Google Drive to store your files, you can reduce the amount of time it takes to load files on your website, as the files are being               served from Google's servers instead of your own.
+By using Google Drive to store your files, you can reduce the amount of time it takes to load files on your website, as the files are being served from Google's servers instead of your own.
 * Upload files by  package filepond
 By using the FilePond package to upload files, you can enhance the user experience by seamlessly allowing users to upload files asynchronously, thereby improving the overall user experience.
-* support multi languages, rtl and ltr  by package mcamara and Astrotomic/laravel-translatable
+* support multi languages, rtl and ltr  by package mcamara and Astrotomic/laravel-translatable.
 * Payment by package stripe .
 
 
